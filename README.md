@@ -1,4 +1,4 @@
-**# ACAP Accident Clustering Prediction Model**  
+**Accident Clustering approach for Accident Prediction (ACAP)**  
 ACAP compares accident prediction on different spatial aggregations. 
 
 The repository contains two folders: 
