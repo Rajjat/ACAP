@@ -1,7 +1,7 @@
 **# ACAP Accident Clustering Prediction Model**  
-ACAP compares accident prediction on different spatial aggregations.  
+ACAP compares accident prediction on different spatial aggregations. 
 
-The repository contains two folders:  
+The repository contains two folders: 
 1. Data preprocessing pipeline  
    The data preprocessing pipeline mainly process accident data from "Unfallatlas" and OpenStreetMap. It also implements various clustering pipeline,e.g., Grid   
    Growing, DBSCAN, Kmeans, SOM, and HDBSCAN 
@@ -12,5 +12,7 @@ The repository contains two folders:
    * Python(3.7)
    * Keras(2.3.1)
    * tensorflow(2.2.0)
-   * scikit-learn(0.24.1)
+   * scikit-learn(0.24.1)  
+
+All the experiment are performed on GPU.
  
