@@ -3,8 +3,8 @@ ACAP compares accident prediction on different spatial aggregations.
 
 The repository contains two folders:  
 1. Data preprocessing pipeline  
-   The data preprocessing pipleine mainly process accident data from "Unfallatlas" and OopenstreetMap. It also implements various clustering pipeline,e.g. Grid   
-   Growing,DBSCAN, Kmeans, SOM and HDBSCAN 
+   The data preprocessing pipeline mainly process accident data from "Unfallatlas" and OpenStreetMap. It also implements various clustering pipeline,e.g., Grid   
+   Growing, DBSCAN, Kmeans, SOM, and HDBSCAN 
 2. Model Implementations  
    This folder consists of our model(ACAP) as well implementation of different baselines.
   
