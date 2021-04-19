@@ -77,37 +77,14 @@ class base_model(object):
         self.act=act
    
     def load_data(self,category=None,with_geocode=False):
-        city='new_method/oneCrossOneGrid'
-        city1='new_method/munich_5x5'
-        city2='new_method/hann/1x1Grid'
-        city3='new_method/hann/5x5Grid'
-        city4='new_method/hann/clustering/som_clustering30x30'
-        city5='new_method/Nurmberg/5x5_Grid'
-        city6='new_method/Nurmberg/clustering/somclustering_30x30'
-        city7='new_method/Nurmberg/clustering/gridgrowing'
-        city8='new_method/Nurmberg/clustering/gridgrowing6'
-        city9='new_method/hann/clustering/gridgrowing6'
-        city10='new_method/gridgrowing'
-        city11='new_method/hann/clustering/dbscan'
-        
-        self.X_train = np.load(
- '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city11+'/traindata/X_train.npy',
-            allow_pickle=True)#[:,0:-1]
-        self.y_train = np.load(           '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city11+'/traindata/y_train.npy',
-            allow_pickle=True)
-        self.X_test = np.load(          '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city11+'/traindata/X_test.npy',
-            allow_pickle=True)#[:,0:-1]
-        # #         print(self.X_test)
-        self.y_test = np.load(            '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city11+'/traindata/y_test.npy',
-            allow_pickle=True)
-        self.X_val = np.load(          '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city11+'/traindata/X_val.npy',
-            allow_pickle=True)#[:,0:-1]
-        # #         print(self.X_test)
-        self.y_val = np.load(            '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city11+'/traindata/y_val.npy', allow_pickle=True) 
-
+        self.X_train = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/X_train.npy",allow_pickle=True)
+        self.y_train = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/y_train.npy",allow_pickle=True)
+        self.X_test = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/X_test.npy",allow_pickle=True)
+        self.y_test = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/y_test.npy",allow_pickle=True)
+        self.X_val = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/X_val.npy",allow_pickle=True)
+        self.y_val = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/y_val.npy", allow_pickle=True) 
 
         if not with_geocode:
-            print('our model cities with rain data baseline')
             self.X_train = self.X_train[:, 0:-1]
             self.X_test = self.X_test[:, 0:-1]
             self.X_val = self.X_val[:, 0:-1]            
@@ -160,7 +137,7 @@ class base_model(object):
         return main_output
         
 class keras_model(base_model):
-    def __init__(self,city='Atlanta',activation='softmax',batch_size=256,epoch = 60,n_jobs=1,act=ACT_POSTERIOR):
+    def __init__(self,city='hann',activation='softmax',batch_size=256,epoch = 60,n_jobs=1,act=ACT_POSTERIOR):
         super(keras_model,self).__init__(act=act,city=city)
         self.output_dim = 2
         self.activation=activation

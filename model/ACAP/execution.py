@@ -65,32 +65,6 @@ if __name__ == "__main__":
     if os.environ.get("PYTHONHASHSEED") != "0":
         raise Exception("You must set PYTHONHASHSEED=0 when starting the Jupyter server to get reproducible results.")
 
-    parser = argparse.ArgumentParser(description="execution learning")
-    parser.add_argument("-c", "--configfile", default="configuration.ini",
-                        help="select configuration file default configuration.ini ")
-    parser.add_argument("-d", "--dataset", action="store_true", default=False)
-    parser.add_argument("-g","--clusteringAlgo", default='kmeans', type=str)
-    parser.add_argument("-r","--regions", default='Hann', type=str)
-    args = parser.parse_args()
-
-    args = parser.parse_args()
-
-    # logging to stdout and file
-    config = configparser.ConfigParser()
-
-    # read config to know path to store log file
-    config.read(args.configfile)
-    print(config['global']['lr'])
-    # create formatter and add it to the handlers
-    # additional format options %(filename)s - %(lineno)d \t
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    # create file handler which logs even debug messages
-    file_handler = logging.FileHandler(filename=config['global']['save_f1_score_folder'] + '/results/' + config['global']['city'] + '/' + config['global'][
-            'clusteringalgoORGrid'] + "/execution.log")
-
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
     # get TF logger
     tensorflow_logger = tf.get_logger()
     tensorflow_logger.setLevel(logging.DEBUG)
@@ -133,12 +107,12 @@ if __name__ == "__main__":
         logger.warning("No GPU available")
         device_name = '/device:CPU:0'
         feed_device = '/cpu:0'    
-    cities=['new_method/hann/clustering/gridgrowing6/results']
-    methods = ['dbscan']
+    cities=['LS/hannover']
+    methods = ['GG','dbscan','kmeans']
 
     for city in cities:
         for method in methods:
             result=Train_Model(city,method)
             print(result)
-            result.to_csv('/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/result_ACAPTestTrainonBoth6000_1.csv')
+            result.to_csv("../../../data_preprocessing/data/regions/"+city+"/"+method+'/result_ACAP.csv')
 

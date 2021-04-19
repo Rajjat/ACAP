@@ -26,10 +26,10 @@ def traintestdataAcc(data, city):
     frames = [train_data_2017_acc, train_data_2018_acc,train_data_2019_acc]
     train_data_acc = pd.concat(frames)
     
-    train_data_acc.to_csv('../data/regions/'+city+'/train_acc.csv',index=False)
+    train_data_acc.to_csv('../../../data_preprocessing/data/regions/'+city+'/train_acc.csv',index=False)
     test_data_acc = data.loc[
         (data['UMONAT'] > 5) & (data['UJAHR'] == 2019)]
-    test_data_acc.to_csv('../data/regions/'+city+'/test_acc.csv',index=False)
+    test_data_acc.to_csv('../../../data_preprocessing/data/regions/'+city+'/test_acc.csv',index=False)
     return train_data_acc,test_data_acc
 
 
@@ -113,7 +113,7 @@ def trainNonacc(hann_grid_zeroacc,train,city):
     dt['UMONAT'] = dt["UMONAT"].astype(str).astype(int)
     dt['UJAHR'] = dt["UJAHR"].astype(str).astype(int)
     train_non_acc_data=dt.loc[((dt['UJAHR']==2017) & (dt['UMONAT']<=12)|(dt['UJAHR']==2018) & (dt['UMONAT']<=12) | ((dt['UJAHR']==2019) & (dt['UMONAT']<=5)))]
-    train_non_acc_data.to_csv('../data/regions/'+city+'/train_nonaccdata.csv', index=False)
+    train_non_acc_data.to_csv('../../../data_preprocessing/data/regions/'+city+'/train_nonaccdata.csv', index=False)
 
     
 def testNonacc(hann_grid_zeroacc,test,city):
@@ -143,15 +143,15 @@ def testNonacc(hann_grid_zeroacc,test,city):
     dt['UMONAT'] = dt["UMONAT"].astype(str).astype(int)
     dt['UJAHR'] = dt["UJAHR"].astype(str).astype(int)
     test_data = dt.loc[(dt['UMONAT'] > 5) & (dt['UJAHR'] == 2019)]
-    test_data.to_csv('../data/regions/'+city+'/test_nonaccdata.csv', index=False)
+    test_data.to_csv('../../../data_preprocessing/data/regions/'+city+'/test_nonaccdata.csv', index=False)
 
 
 if __name__ == "__main__":
     cities = ['LS/hannover']#,'Bayern/munich','Bayern/nurenberg']
     for city in cities:                  
-        region_grid=pd.read_csv('../data/regions/'+city+'/numberofGridRegionGeo7.csv',header=0)
+        region_grid=pd.read_csv('../../../data_preprocessing/data/regions/'+city+'/numberofGridRegionGeo7.csv',header=0)
 
-        region_selectedWithacc=pd.read_csv('../data/regions/'+city+'/acc_threeyear.csv',header=0)
+        region_selectedWithacc=pd.read_csv('../../../data_preprocessing/data/regions/'+city+'/acc_threeYear_hannover.csv',header=0)
         
 
         train,test=traintestdataAcc(region_selectedWithacc, city)

@@ -18,7 +18,6 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
 from sklearn.metrics import make_scorer
-#from hypopt import GridSearch
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier as GBC
 import argparse
@@ -63,26 +62,17 @@ class base_model(object):
    
     # to load train and test data (these sets are pre-generated as numpy arrays)
     def load_data(self,category=None):
-        city='new_method/oneCrossOneGrid'
-        self.X_train = np.load(
- '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/traindata/X_train_POItrainOnly.npy',
-            allow_pickle=True)[:,0:-1]
-        self.y_train = np.load(           '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/traindata/y_train_POItrainOnly.npy',
-            allow_pickle=True)
-        self.X_test = np.load(          '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/traindata/X_test_POItrainOnly.npy',
-            allow_pickle=True)[:,0:-1]
-        # #         print(self.X_test)
-        self.y_test = np.load(            '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/traindata/y_test_POItrainOnly.npy',
-            allow_pickle=True)
-        self.X_val = np.load(          '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/traindata/X_val_POItrainOnly.npy',
-            allow_pickle=True)[:,0:-1]
-        # #         print(self.X_test)
-        self.y_val = np.load(            '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city+'/traindata/y_val_POItrainOnly.npy', allow_pickle=True) 
-
+        city='LS/hannover'
+        method='GG'
+        self.X_train = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/X_train.npy",allow_pickle=True)[:,0:-1]
+        self.y_train = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/y_train.npy",allow_pickle=True)[:,0:-1]
+        self.X_test = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/X_test.npy",allow_pickle=True)[:,0:-1]
+        self.y_test = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/y_test.npy",allow_pickle=True)[:,0:-1]
+        self.X_val = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/X_val.npy",allow_pickle=True)[:,0:-1]
+        self.y_val = np.load("../../../data_preprocessing/data/regions/"+city+"/"+method+"/traindata/y_val.npy", allow_pickle=True)[:,0:-1] 
 
         self.X_train=np.concatenate((self.X_train,self.X_val),axis=0)
         self.y_train=np.concatenate((self.y_train,self.y_val),axis=0)
-
 
         if category!=None:
             l_train=[]
@@ -122,7 +112,6 @@ class base_model(object):
     def evaluate(self):        
         y_true, y_pred = self.y_test, self.clf.predict(self.X_test)
         print('clasification report')
-        #experiment.log_confusion_matrix(y_true, y_pred)
         print(classification_report(y_true, y_pred))
         dict_out = classification_report(y_true, y_pred,output_dict=True)
         return dict_out
@@ -159,7 +148,7 @@ models = ['LR','GBC']
 categories = [['time','NLP','geo']] 
 
 
-writer = open('Results/GBC_For_OM_DBSCAN_{}_.csv'.format(CITY), 'w')
+writer = open('GBC_For_OM_DBSCAN_{}_.csv'.format(CITY), 'w')
 writer.write('Model,Category,ReportType,F1,Precision,Recall,Support\n')
 writer.close()
 

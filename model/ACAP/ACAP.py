@@ -8,7 +8,6 @@ from ACAP.base_cities import *
 
 
 SEQ = 8  # sequence for LSTM
-
 verbose = 2
 dropout = 0.2
 VAL_SPLIT = 0.2
@@ -31,7 +30,7 @@ weights = np.array([1, 1])
 
 class ACAP(keras_model):
     def load_data(self,city,method,):
-        super(DAP_noembed_GRU_3, self).load_data(city,method,with_geocode=False)
+        super(ACAP, self).load_data(city,method,with_geocode=False)
 
         self.X_train1 = self.reshape(self.X_train)
         self.X_test1 = self.reshape(self.X_test)
@@ -77,23 +76,13 @@ class ACAP(keras_model):
             unroll=True)(lstm)
 
         #######################################
-        print('lstm shape=',lstm.shape)
         input2 = Input(shape=(self.X_train2.shape[1],), dtype='float32', name='geohash_input')
         geohash_vec = Dense(GEOHASH_UNIT, activation=ACT_PRIOR)(input2)
         ######################################
         input3 = Input(shape=(self.X_train3.shape[1],), dtype='float32', name='nlp_input')
-        # print('NLP',self.X_train3)
         nlp_vec = Dense(NLP_UNIT, activation=ACT_PRIOR)(input3)
-        #######################################
-        
-        input4 = Input(shape=(1,),dtype='int32',name='geo_code')
-        embeding = Embedding(input_dim=536, output_dim=Embedding_outdim, embeddings_initializer='uniform',input_length=1)(input4)
-        embeding = Flatten()(embeding)
-        embeding = Dense(EMBEDDING_UNIT, activation=ACT_PRIOR)(embeding)
-        ######################################
-
+        #####################################
         level_2 = concatenate([lstm,geohash_vec, nlp_vec])
-
         main_output = self.last_layers(level_2)
 
         self.model = Model(inputs=[input1,input2, input3], outputs=main_output) 

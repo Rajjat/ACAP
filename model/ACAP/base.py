@@ -41,67 +41,21 @@ weights = np.array([1, 1])
 
 
 class base_model(object):
-    def __init__(self, n_jobs=10, act=ACT_POSTERIOR, city='LS'):
+    def __init__(self, n_jobs=10, act=ACT_POSTERIOR, city='hann'):
         self.n_jobs = n_jobs
         self.CITY = city
-        parser = argparse.ArgumentParser(description="execution learning")
-        parser.add_argument("-c", "--configfile", default="configuration.ini",
-                            help="select configuration file default configuration.ini ")
-        parser.add_argument("-d", "--dataset", action="store_true", default=False)
-
         self.act = act
         args = parser.parse_args()
 
-        # logging to stdout and file
-        self.config = configparser.ConfigParser()
-
-        # read config to know path to store log file
-        self.config.read(args.configfile)
-
-    def load_data(self, city,method,category=None, with_geocode=False):
-        print("***********************************************")
-        print("^^^^^^^^^^^^^" + self.CITY + "and method= "+method+" ^^^^^^^^^")
-        print("***********************************************")
-        print('reading file from=',self.config["global"]["training_data_folder"]+'/'+city+'/'+method)
-        city='new_method/oneCrossOneGrid'
-        city1='new_method/shifted_combinetrain'
-        city2='new_method/geohash_Shifted'
-        city3='new_method/som_clustering30x30'
-        city4='new_method/shifted_combinetrain_560m'
-        city5='new_method/braun'
-        city6='new_method/braun/shifted_combinetrain_560m'
-        city7='new_method/munich_5x5'
-        city8='new_method/hann/1x1Grid'
-        city9='new_method/hann/5x5Grid'
-        city10='new_method/hann/clustering/som_clustering30x30'
-        city11='new_method/Nurmberg/1x1_Grid'
-        city12='new_method/Nurmberg/clustering/somclustering_30x30'
-        city13='new_method/Nurmberg/clustering/gridgrowing'
-        city14='new_method/Nurmberg/clustering/gridgrowing6' # -1 mapped to geohash 6
-        city15='new_method/hann/clustering/gridgrowing6' # -1 mapped to geohash 6
-        city16='new_method/gridgrowing' 
-        city17='new_method/1x1Grid'  # -1 mapped to geohash 6, here 
-        city18='new_method/hann/clustering/dbscan'
-        city19='new_method/hann/clustering/hdbscan'
-        city20='new_method/hann/clustering/kmeans++'
-        
-        self.X_train = np.load(
- '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city15+'/traindata/X_train6000.npy',
-            allow_pickle=True)#[:,0:-1]
-        self.y_train = np.load(           '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city15+'/traindata/y_train6000.npy',
-            allow_pickle=True)
-        self.X_test = np.load(          '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city15+'/traindata/X_test6000.npy',
-            allow_pickle=True)#[:,0:-1]
-        # #         print(self.X_test)
-        self.y_test = np.load(            '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city15+'/traindata/y_test6000.npy',
-            allow_pickle=True)
-        self.X_val = np.load(          '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city15+'/traindata/X_val6000.npy',
-            allow_pickle=True)#[:,0:-1]
-        # #         print(self.X_test)
-        self.y_val = np.load(            '/data/dadwal/data/DAP_data/dataPrepTrainTestCluster/Baveria/'+city15+'/traindata/y_val6000.npy', allow_pickle=True) 
+    def load_data(self, city,method,category=None, with_geocode=False):        
+        self.X_train = np.load("../"+city+"/"+method+"/X_train.npy",allow_pickle=True)
+        self.y_train = np.load("../"+city+"/"+method+"/y_train.npy",allow_pickle=True)
+        self.X_test = np.load("../"+city+"/"+method+"/X_test.npy",allow_pickle=True)
+        self.y_test = np.load("../"+city+"/"+method+"/y_test.npy",allow_pickle=True)
+        self.X_val = np.load("../"+city+"/"+method+"/X_val.npy",allow_pickle=True)
+        self.y_val = np.load("../"+city+"/"+method+"/y_val.npy", allow_pickle=True) 
 
         if not with_geocode:
-            print('our model cities with rain data baseline')
             self.X_train = self.X_train[:, 0:-1]
             self.X_test = self.X_test[:, 0:-1]
             self.X_val = self.X_val[:, 0:-1]            
@@ -175,7 +129,7 @@ class keras_model(base_model):
     def reshape(self, x):
         print('x before=', (x.shape))
         x=x[:,0:296] # past 8
-        m=reshape_cat(x,'time')#two year data separted by year, year  as well rain used as feature used
+        m=reshape_cat(x,'time')
         t = m.reshape((m.shape[0],SEQ,int(m.shape[1]/SEQ)))
         return t
 
