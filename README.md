@@ -4,6 +4,7 @@ ACAP compares accident prediction on different spatial aggregations.
 The repository contains two folders: 
 1. Data preprocessing pipeline  
    The data preprocessing pipeline mainly process accident data from "Unfallatlas" and OpenStreetMap. It also implements various clustering pipelines,e.g., Grid        Growing, DBSCAN, Kmeans, SOM, and HDBSCAN.  
+   
    a) Run 1_Accident_Extract_City/1_Accident_Extract_City.ipynb for extracting accident dataset for the specific city.  
    b) Run 2_TrainTestSpliAndNonAccGen/2_train_testSplitAndNonaccGeneration.py for splitting train and test data from accident data (2017-2019) as well creating non-       accident data.  
    c) Run 3_clustering/GG.ipynb for Grid growing aggregation whereas 3_clustering/Clustering_Algo.ipynb for clustering-based baselines.  
@@ -12,9 +13,10 @@ The repository contains two folders:
    
 2. Model Implementations  
    This folder consists of our model(ACAP) as well implementation of different baselines.  
-   i) To run ACAP model, execute  
+   
+   a) To run ACAP model, execute  
       python ACAP.py  
-   ii) To run baselines(LR,GBC):  
+   b) To run baselines(LR,GBC):  
         python GBCAndLR.py
    
   
