@@ -15,9 +15,9 @@ The repository contains two folders:
    This folder consists of our model(ACAP) as well implementation of different baselines.  
    
    a) To run ACAP model, execute  
-      python ACAP.py  
+         python ACAP.py  
    b) To run baselines(LR,GBC):  
-        python GBCAndLR.py
+         python GBCAndLR.py
    
   
  **Tools:-**  
